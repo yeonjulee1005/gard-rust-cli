@@ -20,7 +20,7 @@ documentation = "https://docs.rs/gard"
 keywords     = ["security", "supply-chain", "git-hooks", "npm", "package"]
 categories   = ["command-line-utilities", "development-tools"]
 readme       = "README.md"
-rust-version = "1.78"
+rust-version = "1.85"
 
 [workspace.dependencies]
 # crates
