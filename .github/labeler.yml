@@ -1,0 +1,25 @@
+area:cli:
+  - crates/gard-cli/**
+
+area:core:
+  - crates/gard-core/**
+
+area:pkg:
+  - crates/gard-pkg/**
+
+area:git:
+  - crates/gard-git/**
+
+area:report:
+  - crates/gard-report/**
+
+area:ci:
+  - .github/workflows/**
+
+area:docs:
+  - "*.md"
+  - docs/**
+
+area:dependencies:
+  - Cargo.toml
+  - Cargo.lock

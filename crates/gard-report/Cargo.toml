@@ -1,0 +1,18 @@
+[package]
+name              = "gard-report"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+authors.workspace = true
+description       = "Terminal, JSON, and SARIF output rendering for gard"
+homepage.workspace = true
+repository.workspace = true
+rust-version.workspace = true
+
+[dependencies]
+gard-core  = { workspace = true }
+console    = { workspace = true }
+serde      = { workspace = true }
+serde_json = { workspace = true }
+chrono     = { workspace = true }
+anyhow     = { workspace = true }

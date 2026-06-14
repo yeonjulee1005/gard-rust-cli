@@ -1,0 +1,70 @@
+[workspace]
+members = [
+    "crates/gard-cli",
+    "crates/gard-core",
+    "crates/gard-pkg",
+    "crates/gard-git",
+    "crates/gard-report",
+]
+resolver = "2"
+
+[workspace.package]
+version      = "0.1.0"
+edition      = "2021"
+license      = "MIT"
+authors      = ["dewdew <yeonju.lee1005@gmail.com>"]
+description  = "AI-era package security gate — Sign what you commit. Guard what you ship."
+homepage     = "https://github.com/dewdew/gard"
+repository   = "https://github.com/dewdew/gard"
+documentation = "https://docs.rs/gard"
+keywords     = ["security", "supply-chain", "git-hooks", "npm", "package"]
+categories   = ["command-line-utilities", "development-tools"]
+readme       = "README.md"
+rust-version = "1.75"
+
+[workspace.dependencies]
+# crates
+gard-core   = { path = "crates/gard-core" }
+gard-pkg    = { path = "crates/gard-pkg" }
+gard-git    = { path = "crates/gard-git" }
+gard-report = { path = "crates/gard-report" }
+
+# CLI
+clap = { version = "4", features = ["derive"] }
+
+# 터미널 UI
+ratatui   = "0.28"
+crossterm = "0.28"
+console   = "0.15"
+indicatif = "0.17"
+
+# 비동기 HTTP
+tokio   = { version = "1", features = ["full"] }
+reqwest = { version = "0.12", features = ["json"] }
+
+# 직렬화
+serde      = { version = "1", features = ["derive"] }
+serde_json = "1"
+toml       = "0.8"
+chrono     = { version = "0.4", features = ["serde"] }
+
+# 암호화
+sha2 = "0.10"
+hex  = "0.4"
+
+# 파일 순회
+ignore = "0.4"
+
+# 패턴 매칭
+regex = "1"
+
+# 테스트용
+tempfile = "3"
+
+# 로깅/진단
+tracing            = "0.1"
+tracing-subscriber = { version = "0.3", features = ["env-filter", "fmt"] }
+
+# 에러 처리
+anyhow    = "1"
+thiserror = "1"

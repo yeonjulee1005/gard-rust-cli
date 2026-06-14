@@ -1,0 +1,11 @@
+# Global owner
+* @yeonjulee1005
+
+# Detection engine
+/crates/gard-pkg/ @yeonjulee1005
+
+# CLI
+/crates/gard-cli/ @yeonjulee1005
+
+# CI/CD
+/.github/workflows/ @yeonjulee1005

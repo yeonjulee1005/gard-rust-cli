@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: 💬 Questions & Discussions
+    url: https://github.com/dewdew/gard/discussions
+    about: 버그가 아닌 사용 질문은 Discussions에서 답변드립니다. / For usage questions, please use Discussions.
+  - name: 🔐 Security Vulnerability
+    url: mailto:yeonju.lee1005@gmail.com
+    about: 취약점 제보는 공개 이슈 대신 이메일로 보내주세요. / Please report security vulnerabilities via email, not public issues.

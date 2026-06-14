@@ -1,0 +1,21 @@
+[package]
+name              = "gard-git"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+authors.workspace = true
+description       = "Git hook install/uninstall and CI workflow generation for gard"
+homepage.workspace = true
+repository.workspace = true
+rust-version.workspace = true
+
+[dependencies]
+gard-core  = { workspace = true }
+gard-pkg   = { workspace = true }
+serde      = { workspace = true }
+serde_json = { workspace = true }
+anyhow     = { workspace = true }
+thiserror  = { workspace = true }
+
+[dev-dependencies]
+tempfile = { workspace = true }

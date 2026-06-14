@@ -1,0 +1,19 @@
+# Build output
+/target/
+
+# Editor
+.vscode/
+.idea/
+*.swp
+*.swo
+.DS_Store
+
+# Environment
+.env
+.env.local
+
+# gard runtime files (for test projects inside this repo)
+.gard/
+
+# Cargo.lock is committed for binary crates (CLI tool convention)
+# Cargo.lock
