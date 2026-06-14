@@ -31,10 +31,10 @@ fn detect_ai_tool() -> Option<String> {
 ///
 /// T1 and T2 run in parallel. T3 runs only when T2 score ≥ 61 and `pkg_path` is available.
 pub async fn scan_package(
-    client:   &reqwest::Client,
-    pkg:      &Package,
+    client: &reqwest::Client,
+    pkg: &Package,
     pkg_path: Option<&Path>,
-    cfg:      &Config,
+    cfg: &Config,
 ) -> PackageResult {
     let ai_tool = detect_ai_tool();
 
@@ -44,21 +44,21 @@ pub async fn scan_package(
         tier2_meta::check(client, pkg, cfg),
     );
 
-    let tier2       = t2.result.clone();
+    let tier2 = t2.result.clone();
     let tier2_score = t2.score;
 
     // Short-circuit: T1 block dominates regardless of T2
     if tier1.is_blocking() {
         return PackageResult {
-            package:         pkg.clone(),
+            package: pkg.clone(),
             tier1,
             tier2,
             tier2_score,
-            tier2_age_days:  t2.age_days,
+            tier2_age_days: t2.age_days,
             tier2_downloads: t2.downloads,
-            tier3:           TierResult::Skipped,
-            verdict:         Verdict::Block,
-            checked_at:      Utc::now(),
+            tier3: TierResult::Skipped,
+            verdict: Verdict::Block,
+            checked_at: Utc::now(),
             ai_tool,
         };
     }
@@ -67,7 +67,7 @@ pub async fn scan_package(
     let tier3 = if tier2_score >= 61 {
         match pkg_path {
             Some(path) => tier3_analyzer::analyze(path, &pkg.ecosystem, cfg),
-            None       => TierResult::Skipped,
+            None => TierResult::Skipped,
         }
     } else {
         TierResult::Skipped
@@ -76,15 +76,15 @@ pub async fn scan_package(
     let verdict = scorer::aggregate(&tier1, &tier2, &tier3);
 
     PackageResult {
-        package:         pkg.clone(),
+        package: pkg.clone(),
         tier1,
         tier2,
         tier2_score,
-        tier2_age_days:  t2.age_days,
+        tier2_age_days: t2.age_days,
         tier2_downloads: t2.downloads,
         tier3,
         verdict,
-        checked_at:      Utc::now(),
+        checked_at: Utc::now(),
         ai_tool,
     }
 }

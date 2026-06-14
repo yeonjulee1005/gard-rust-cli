@@ -10,30 +10,38 @@ pub enum CiProvider {
 
 impl CiProvider {
     pub fn detect(repo_root: &Path) -> Self {
-        if repo_root.join(".github").exists()                  { return Self::GitHubActions; }
-        if repo_root.join(".gitlab-ci.yml").exists()           { return Self::GitLabCI; }
-        if repo_root.join("bitbucket-pipelines.yml").exists()  { return Self::Bitbucket; }
-        if repo_root.join("Jenkinsfile").exists()              { return Self::Jenkins; }
+        if repo_root.join(".github").exists() {
+            return Self::GitHubActions;
+        }
+        if repo_root.join(".gitlab-ci.yml").exists() {
+            return Self::GitLabCI;
+        }
+        if repo_root.join("bitbucket-pipelines.yml").exists() {
+            return Self::Bitbucket;
+        }
+        if repo_root.join("Jenkinsfile").exists() {
+            return Self::Jenkins;
+        }
         Self::Unknown
     }
 
     pub fn name(&self) -> Option<&'static str> {
         match self {
             Self::GitHubActions => Some("GitHub Actions"),
-            Self::GitLabCI      => Some("GitLab CI"),
-            Self::Bitbucket     => Some("Bitbucket Pipelines"),
-            Self::Jenkins       => Some("Jenkins"),
-            Self::Unknown       => None,
+            Self::GitLabCI => Some("GitLab CI"),
+            Self::Bitbucket => Some("Bitbucket Pipelines"),
+            Self::Jenkins => Some("Jenkins"),
+            Self::Unknown => None,
         }
     }
 
     pub fn generate_config(&self, repo_root: &Path) -> anyhow::Result<()> {
         match self {
             Self::GitHubActions => write_github_actions(repo_root),
-            Self::GitLabCI      => append_gitlab_job(repo_root),
-            Self::Bitbucket     => append_bitbucket_step(repo_root),
-            Self::Jenkins       => write_jenkins_file(repo_root),
-            Self::Unknown       => Ok(()),
+            Self::GitLabCI => append_gitlab_job(repo_root),
+            Self::Bitbucket => append_bitbucket_step(repo_root),
+            Self::Jenkins => write_jenkins_file(repo_root),
+            Self::Unknown => Ok(()),
         }
     }
 }

@@ -5,9 +5,9 @@ use serde::Deserialize;
 // ── Tier 2 output ─────────────────────────────────────────────────────────────
 
 pub struct Tier2Output {
-    pub result:    TierResult,
-    pub score:     u8,
-    pub age_days:  Option<u64>,
+    pub result: TierResult,
+    pub score: u8,
+    pub age_days: Option<u64>,
     pub downloads: Option<u64>,
 }
 
@@ -22,47 +22,62 @@ pub async fn check(client: &reqwest::Client, pkg: &Package, cfg: &Config) -> Tie
     let (age_days, downloads) = fetch_metadata(client, pkg).await;
     let score = compute_score(age_days, downloads, &pkg.ecosystem, cfg);
     let result = score_to_result(score);
-    Tier2Output { result, score, age_days, downloads }
+    Tier2Output {
+        result,
+        score,
+        age_days,
+        downloads,
+    }
 }
 
 // ── Score computation (pure — unit-testable) ──────────────────────────────────
 
 /// Compute a 0–100 risk score from age and download data.
 pub fn compute_score(
-    age_days:  Option<u64>,
+    age_days: Option<u64>,
     downloads: Option<u64>,
     ecosystem: &Ecosystem,
-    cfg:       &Config,
+    cfg: &Config,
 ) -> u8 {
     let t2 = &cfg.tier2;
 
     // Age scoring
     let age_score: u8 = match age_days {
-        None    => 20, // unavailable → suspicious
+        None => 20, // unavailable → suspicious
         Some(d) => {
             let flag = t2.flag_if_newer_than_days as u64;
             let warn = t2.warn_if_newer_than_days as u64;
-            if      d < flag        { 30 }
-            else if d < warn        { 15 }
-            else if d < warn * 3    { 5  }
-            else                    { 0  }
+            if d < flag {
+                30
+            } else if d < warn {
+                15
+            } else if d < warn * 3 {
+                5
+            } else {
+                0
+            }
         }
     };
 
     // Download scoring (thresholds differ per ecosystem)
     let (flag_dl, warn_dl) = match ecosystem {
-        Ecosystem::Npm   => (t2.npm_flag_threshold,   t2.npm_warn_threshold),
-        Ecosystem::PyPI  => (t2.pypi_flag_threshold,  t2.pypi_warn_threshold),
+        Ecosystem::Npm => (t2.npm_flag_threshold, t2.npm_warn_threshold),
+        Ecosystem::PyPI => (t2.pypi_flag_threshold, t2.pypi_warn_threshold),
         Ecosystem::Cargo => (t2.cargo_flag_threshold, t2.cargo_warn_threshold),
     };
 
     let dl_score: u8 = match downloads {
-        None    => 20, // unavailable → suspicious
+        None => 20, // unavailable → suspicious
         Some(d) => {
-            if      d < flag_dl        { 30 }
-            else if d < warn_dl        { 15 }
-            else if d < warn_dl * 10   { 5  }
-            else                       { 0  }
+            if d < flag_dl {
+                30
+            } else if d < warn_dl {
+                15
+            } else if d < warn_dl * 10 {
+                5
+            } else {
+                0
+            }
         }
     };
 
@@ -71,7 +86,7 @@ pub fn compute_score(
 
 fn score_to_result(score: u8) -> TierResult {
     match score {
-        0..=40  => TierResult::Pass,
+        0..=40 => TierResult::Pass,
         41..=60 => TierResult::Warn {
             reason: format!("risk score {score}/100 — low download count or recent package"),
         },
@@ -85,8 +100,8 @@ fn score_to_result(score: u8) -> TierResult {
 
 async fn fetch_metadata(client: &reqwest::Client, pkg: &Package) -> (Option<u64>, Option<u64>) {
     match &pkg.ecosystem {
-        Ecosystem::Npm   => fetch_npm(client, &pkg.name).await,
-        Ecosystem::PyPI  => fetch_pypi(client, &pkg.name).await,
+        Ecosystem::Npm => fetch_npm(client, &pkg.name).await,
+        Ecosystem::PyPI => fetch_pypi(client, &pkg.name).await,
         Ecosystem::Cargo => fetch_cargo(client, &pkg.name).await,
     }
 }
@@ -181,8 +196,8 @@ struct CratesResp {
 
 #[derive(Deserialize)]
 struct CrateData {
-    created_at:        Option<String>,
-    recent_downloads:  Option<u64>,
+    created_at: Option<String>,
+    recent_downloads: Option<u64>,
 }
 
 async fn fetch_cargo(client: &reqwest::Client, name: &str) -> (Option<u64>, Option<u64>) {

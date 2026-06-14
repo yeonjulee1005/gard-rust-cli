@@ -38,7 +38,11 @@ pub struct Package {
 
 impl Package {
     pub fn new(name: impl Into<String>, version: impl Into<String>, ecosystem: Ecosystem) -> Self {
-        Self { name: name.into(), version: version.into(), ecosystem }
+        Self {
+            name: name.into(),
+            version: version.into(),
+            ecosystem,
+        }
     }
 }
 
@@ -81,8 +85,8 @@ pub enum Verdict {
 impl std::fmt::Display for Verdict {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         match self {
-            Self::Pass  => write!(f, "PASS"),
-            Self::Warn  => write!(f, "WARN"),
+            Self::Pass => write!(f, "PASS"),
+            Self::Warn => write!(f, "WARN"),
             Self::Block => write!(f, "BLOCK"),
         }
     }

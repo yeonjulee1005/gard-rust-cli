@@ -1,10 +1,9 @@
 use std::path::Path;
 
 const MARKER_START: &str = "# --- gard (auto-injected) ---";
-const MARKER_END:   &str = "# --- end gard ---";
+const MARKER_END: &str = "# --- end gard ---";
 
-const GARD_SNIPPET: &str =
-    "gard scan --packages --quiet\nif [ $? -ne 0 ]; then exit 1; fi";
+const GARD_SNIPPET: &str = "gard scan --packages --quiet\nif [ $? -ne 0 ]; then exit 1; fi";
 
 /// Install the gard pre-push hook.
 /// If a hook already exists it is merged: gard snippet is injected at the top,
@@ -42,7 +41,7 @@ pub fn uninstall(repo_root: &Path) -> anyhow::Result<()> {
         return Ok(());
     }
 
-    let content  = std::fs::read_to_string(&hook_path)?;
+    let content = std::fs::read_to_string(&hook_path)?;
     let stripped = remove_block(&content);
 
     // Only the shebang line remains → nothing useful left
@@ -147,7 +146,7 @@ mod tests {
 
     #[test]
     fn install_merges_existing_hook() {
-        let dir  = TempDir::new().unwrap();
+        let dir = TempDir::new().unwrap();
         let hook = hooks_dir(&dir).join("pre-push");
         std::fs::write(&hook, "#!/bin/sh\nnpm run pre-push-checks\n").unwrap();
         install(dir.path()).unwrap();
@@ -168,7 +167,7 @@ mod tests {
 
     #[test]
     fn uninstall_preserves_original_content() {
-        let dir  = TempDir::new().unwrap();
+        let dir = TempDir::new().unwrap();
         let hook = hooks_dir(&dir).join("pre-push");
         std::fs::write(&hook, "#!/bin/sh\nnpm run checks\n").unwrap();
         install(dir.path()).unwrap();
