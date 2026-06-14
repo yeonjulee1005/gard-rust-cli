@@ -35,7 +35,7 @@ clap = { version = "4", features = ["derive"] }
 # 터미널 UI
 ratatui   = "0.28"
 crossterm = "0.28"
-console   = "0.15"
+console   = "0.16"
 indicatif = "0.17"
 
 # 비동기 HTTP
