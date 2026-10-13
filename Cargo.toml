@@ -67,4 +67,4 @@ tracing-subscriber = { version = "0.3", features = ["env-filter", "fmt"] }
 
 # 에러 처리
 anyhow    = "1"
-thiserror = "1"
+thiserror = "2"
