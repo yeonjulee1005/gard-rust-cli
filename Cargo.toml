@@ -49,7 +49,7 @@ toml       = "0.8"
 chrono     = { version = "0.4", features = ["serde"] }
 
 # 암호화
-sha2 = "0.10"
+sha2 = "0.11"
 hex  = "0.4"
 
 # 파일 순회
